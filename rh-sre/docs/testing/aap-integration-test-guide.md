@@ -8,7 +8,7 @@ tags: [testing, aap-integration, workflow-verification, remediation-testing]
 semantic_keywords: [aap integration testing, workflow verification, remediation test]
 use_cases: [remediation, playbook-executor]
 related_docs: [aap-job-execution.md, playbook-integration-aap.md]
-last_updated: 2024-01-20
+last_updated: 2026-02-24
 ---
 
 # AAP Integration Test Guide
