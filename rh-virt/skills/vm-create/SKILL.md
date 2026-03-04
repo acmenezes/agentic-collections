@@ -1,7 +1,9 @@
 ---
 name: vm-create
 description: |
-  Create new virtual machines in OpenShift Virtualization with automatic instance type resolution and OS selection. Use this skill when users request:
+  Create new virtual machines in OpenShift Virtualization with automatic instance type resolution and OS selection.
+
+  Use when:
   - "Create a new VM"
   - "Deploy a virtual machine with [OS]"
   - "Set up a VM in namespace [name]"

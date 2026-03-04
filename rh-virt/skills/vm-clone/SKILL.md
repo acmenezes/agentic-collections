@@ -1,7 +1,9 @@
 ---
 name: vm-clone
 description: |
-  Clone existing virtual machines for testing, scaling, or creating templates. Use this skill when users request:
+  Clone existing virtual machines for testing, scaling, or creating templates.
+
+  Use when:
   - "Clone VM [source] to [target]"
   - "Create a copy of VM [name]"
   - "Duplicate VM [name] for testing"

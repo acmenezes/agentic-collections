@@ -1,7 +1,9 @@
 ---
 name: vm-lifecycle-manager
 description: |
-  Manage virtual machine lifecycle operations including start, stop, and restart. Use this skill when users request:
+  Manage virtual machine lifecycle operations including start, stop, and restart.
+
+  Use when:
   - "Start VM [name]"
   - "Stop the virtual machine [name]"
   - "Restart VM [name]"

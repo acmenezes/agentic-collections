@@ -1,7 +1,9 @@
 ---
 name: vm-delete
 description: |
-  Permanently delete virtual machines and their associated resources from OpenShift Virtualization. Use this skill when users request:
+  Permanently delete virtual machines and their associated resources from OpenShift Virtualization.
+
+  Use when:
   - "Delete VM [name]"
   - "Remove virtual machine [name]"
   - "Destroy VM [name]"

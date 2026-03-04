@@ -1,13 +1,15 @@
 ---
 name: vm-inventory
 description: |
-  List and view virtual machines across namespaces with status, resource usage, and health information. Use this skill when users request:
+  List and view virtual machines across namespaces with status, resource usage, and health information.
+
+  Use when:
   - "List all VMs"
   - "Show VMs in namespace [name]"
   - "What VMs are running?"
   - "Get details of VM [name]"
 
-  This skill provides VM inventory and status reporting.
+  This skill provides comprehensive VM inventory and status reporting.
 
   NOT for creating or modifying VMs (use vm-create or vm-lifecycle-manager instead).
 
