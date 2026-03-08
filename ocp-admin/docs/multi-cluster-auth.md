@@ -20,15 +20,15 @@ If you're currently logged into all the clusters you would like to get a report 
 
 ```bash
 # Step 1: Setup — applies RBAC to each cluster, extracts SA tokens
-bash ocp-admin/scripts/cluster-report/build-kubeconfig.sh --setup --all-contexts
+python3 ocp-admin/scripts/cluster-report/build-kubeconfig.py setup --all-contexts
 
 # Step 2: Build — assembles a merged kubeconfig from the inventory
-bash ocp-admin/scripts/cluster-report/build-kubeconfig.sh \
-  --build --clusters ~/.ocp-clusters/clusters.json --verify
+python3 ocp-admin/scripts/cluster-report/build-kubeconfig.py \
+  build --clusters ~/.ocp-clusters/clusters.json --verify
 
 # Step 3: Use — export and run the skill
 export KUBECONFIG=/tmp/cluster-report-kubeconfig
-# Then in Claude Code: /cluster-report
+# Then in Claude Code use the skill: /cluster-report
 ```
 
 After the one-time setup, only Steps 2–3 are needed for future report sessions.
@@ -85,8 +85,8 @@ Set permissions: `chmod 600 ~/.ocp-clusters/clusters.json`
 ### 4. Build Kubeconfig
 
 ```bash
-bash ocp-admin/scripts/cluster-report/build-kubeconfig.sh \
-  --build --clusters ~/.ocp-clusters/clusters.json --output ~/.kube/cluster-report-kubeconfig
+python3 ocp-admin/scripts/cluster-report/build-kubeconfig.py \
+  build --clusters ~/.ocp-clusters/clusters.json --output ~/.kube/cluster-report-kubeconfig
 ```
 
 ## RBAC Permissions
@@ -159,10 +159,10 @@ If `ca_cert` is omitted, TLS verification is skipped (`--insecure-skip-tls-verif
 
 ## Script Reference
 
-### `--setup` Mode
+### `setup` Subcommand
 
 ```bash
-bash build-kubeconfig.sh --setup [OPTIONS]
+python3 build-kubeconfig.py setup [OPTIONS]
 ```
 
 
@@ -181,10 +181,10 @@ Behavior:
 - Skips unreachable clusters with an error message
 - Appends to existing inventory (deduplicates by name)
 
-### `--build` Mode
+### `build` Subcommand
 
 ```bash
-bash build-kubeconfig.sh --build --clusters <path> [OPTIONS]
+python3 build-kubeconfig.py build --clusters <path> [OPTIONS]
 ```
 
 
@@ -208,23 +208,19 @@ Behavior:
 SA token Secrets do not expire, but you may want to rotate them periodically:
 
 ```bash
-# On each cluster that needs rotation:
 oc delete secret cluster-reporter-token -n cluster-reporter-system
 oc apply -f ocp-admin/scripts/cluster-report/cluster-reporter-rbac.yaml
 
-# Extract the new token:
 oc get secret cluster-reporter-token -n cluster-reporter-system \
   -o jsonpath='{.data.token}' | base64 -d
 
-# Update clusters.json with the new token, then rebuild:
-bash build-kubeconfig.sh --build --clusters ~/.ocp-clusters/clusters.json --verify
+python3 build-kubeconfig.py build --clusters ~/.ocp-clusters/clusters.json --verify
 ```
 
 To detect expired or invalid tokens:
 
 ```bash
-bash build-kubeconfig.sh --build --clusters ~/.ocp-clusters/clusters.json --verify
-# Failed verifications indicate clusters needing token rotation
+python3 build-kubeconfig.py build --clusters ~/.ocp-clusters/clusters.json --verify
 ```
 
 ## Security Best Practices

@@ -22,7 +22,7 @@ For running `cluster-report` across many clusters (10–100+), use service accou
 
 | Script / Manifest | Purpose |
 |-------------------|---------|
-| [`build-kubeconfig.sh`](scripts/cluster-report/build-kubeconfig.sh) | Builds a merged kubeconfig from SA tokens (`--setup` + `--build` modes) |
+| [`build-kubeconfig.py`](scripts/cluster-report/build-kubeconfig.py) | Builds a merged kubeconfig from SA tokens (`setup` + `build` subcommands) |
 | [`cluster-reporter-rbac.yaml`](scripts/cluster-report/cluster-reporter-rbac.yaml) | Read-only RBAC resources applied once per cluster |
 
 > **Required permissions**: The RBAC setup creates cluster-scoped resources (ClusterRole, ClusterRoleBinding), so the user running `--setup` needs `cluster-admin` privileges. This is a one-time step per cluster.
@@ -31,11 +31,11 @@ For running `cluster-report` across many clusters (10–100+), use service accou
 
 ```bash
 # 1. One-time (requires cluster-admin): apply RBAC and extract tokens for all clusters you're logged into
-bash ocp-admin/scripts/cluster-report/build-kubeconfig.sh --setup --all-contexts
+python3 ocp-admin/scripts/cluster-report/build-kubeconfig.py setup --all-contexts
 
 # 2. Build merged kubeconfig from saved tokens
-bash ocp-admin/scripts/cluster-report/build-kubeconfig.sh \
-  --build --clusters ~/.ocp-clusters/clusters.json --verify
+python3 ocp-admin/scripts/cluster-report/build-kubeconfig.py \
+  build --clusters ~/.ocp-clusters/clusters.json --verify
 
 # 3. Export and run
 export KUBECONFIG=/tmp/cluster-report-kubeconfig
