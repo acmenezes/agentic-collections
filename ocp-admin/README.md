@@ -25,10 +25,12 @@ For running `cluster-report` across many clusters (10–100+), use service accou
 | [`build-kubeconfig.sh`](scripts/cluster-report/build-kubeconfig.sh) | Builds a merged kubeconfig from SA tokens (`--setup` + `--build` modes) |
 | [`cluster-reporter-rbac.yaml`](scripts/cluster-report/cluster-reporter-rbac.yaml) | Read-only RBAC resources applied once per cluster |
 
+> **Required permissions**: The RBAC setup creates cluster-scoped resources (ClusterRole, ClusterRoleBinding), so the user running `--setup` needs `cluster-admin` privileges. This is a one-time step per cluster.
+
 **Quick start:**
 
 ```bash
-# 1. One-time: apply RBAC and extract tokens for all clusters you're logged into
+# 1. One-time (requires cluster-admin): apply RBAC and extract tokens for all clusters you're logged into
 bash ocp-admin/scripts/cluster-report/build-kubeconfig.sh --setup --all-contexts
 
 # 2. Build merged kubeconfig from saved tokens

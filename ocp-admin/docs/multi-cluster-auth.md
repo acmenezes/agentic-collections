@@ -39,6 +39,8 @@ If you prefer to set up each cluster individually:
 
 ### 1. Apply RBAC
 
+> **Required permissions**: The manifest creates cluster-scoped resources (ClusterRole, ClusterRoleBinding), so the user applying it needs `cluster-admin` privileges. This is a one-time setup step.
+
 ```bash
 oc login <cluster-api-url>
 oc apply -f ocp-admin/scripts/cluster-report/cluster-reporter-rbac.yaml
@@ -48,6 +50,7 @@ This creates:
 
 - Namespace `cluster-reporter-system`
 - ServiceAccount `cluster-reporter` with a read-only ClusterRole
+- ClusterRoleBinding `cluster-reporter-binding` (binds the SA to the ClusterRole)
 - Token Secret `cluster-reporter-token` (non-expiring)
 
 ### 2. Extract the Token
