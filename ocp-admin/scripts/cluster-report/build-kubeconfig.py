@@ -52,7 +52,7 @@ def run_setup(args):
     kube_cmd = find_kube_cmd()
     inventory_file = Path(args.output_inventory)
 
-    if not RBAC_MANIFEST.is_file():
+    if not args.skip_rbac and not RBAC_MANIFEST.is_file():
         print(f"Error: RBAC manifest not found at {RBAC_MANIFEST}", file=sys.stderr)
         sys.exit(1)
 
@@ -71,6 +71,11 @@ def run_setup(args):
 
     if args.contexts:
         contexts = args.contexts.split(",")
+        unknown = [c for c in contexts if c not in all_ctx]
+        if unknown:
+            print(f"Error: unknown context(s): {', '.join(unknown)}", file=sys.stderr)
+            print(f"Available: {', '.join(all_ctx)}", file=sys.stderr)
+            sys.exit(1)
     elif args.all_contexts:
         contexts = all_ctx
     else:
@@ -81,7 +86,46 @@ def run_setup(args):
         print("Run with --all-contexts to setup all, or --contexts ctx1,ctx2 to select specific ones.")
         sys.exit(0)
 
-    print(f"Setting up {len(contexts)} cluster(s)...\n")
+    print(f"Pre-flight: checking {len(contexts)} cluster(s)...\n")
+    reachable = {}
+    for ctx in contexts:
+        server = _get_server_url(kube_cmd, ctx)
+        if not server:
+            print(f"  {ctx}: SKIP (no server URL in kubeconfig)")
+            continue
+        try:
+            subprocess.run(
+                [kube_cmd, "cluster-info", "--context", ctx],
+                capture_output=True, text=True, timeout=15, check=True
+            )
+            reachable[ctx] = server
+            print(f"  {ctx}: reachable ({server})")
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
+            print(f"  {ctx}: SKIP (unreachable – try '{kube_cmd} login {server}' first)")
+            continue
+
+        if not args.skip_rbac:
+            try:
+                result = subprocess.run(
+                    [kube_cmd, "auth", "can-i", "create", "clusterroles",
+                     "--context", ctx],
+                    capture_output=True, text=True, timeout=10
+                )
+                if result.stdout.strip().lower() != "yes":
+                    print(f"  {ctx}: SKIP (insufficient permissions – "
+                          f"cluster-admin required for RBAC setup, "
+                          f"or use --skip-rbac if RBAC is already applied)")
+                    del reachable[ctx]
+            except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
+                print(f"  {ctx}: SKIP (could not verify permissions)")
+                del reachable[ctx]
+
+    if not reachable:
+        print("\nError: no eligible clusters found. Nothing to do.", file=sys.stderr)
+        sys.exit(1)
+
+    print(f"\n{len(reachable)}/{len(contexts)} cluster(s) ready. "
+          f"Proceeding with setup...\n")
 
     inventory_file.parent.mkdir(parents=True, exist_ok=True)
 
@@ -95,25 +139,8 @@ def run_setup(args):
 
     results = {"setup": [], "errors": []}
 
-    for ctx in contexts:
+    for ctx, server in reachable.items():
         print(f"--- {ctx} ---")
-
-        server = _get_server_url(kube_cmd, ctx)
-        if not server:
-            results["errors"].append(f"{ctx}: no server URL found in kubeconfig")
-            print("  SKIP: no server URL")
-            continue
-
-        try:
-            subprocess.run(
-                [kube_cmd, "cluster-info", "--context", ctx],
-                capture_output=True, text=True, timeout=15, check=True
-            )
-        except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
-            results["errors"].append(f"{ctx}: cluster unreachable or auth expired")
-            print(f"  SKIP: cluster unreachable (try '{kube_cmd} login {server}' first)")
-            continue
-
         print(f"  Server: {server}")
 
         if args.skip_rbac:
