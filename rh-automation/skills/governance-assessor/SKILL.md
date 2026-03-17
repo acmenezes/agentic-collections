@@ -108,6 +108,10 @@ Before creating or modifying any AAP resource:
 ### Reference Documentation
 - [governance-readiness.md](../../docs/aap/governance-readiness.md) - 7-domain assessment framework
 
+### Sample Reports
+- [sample-full-assessment.md](references/sample-full-assessment.md) - Full 7+1 domain assessment with compound risk analysis
+- [sample-scoped-assessment.md](references/sample-scoped-assessment.md) - Scoped assessment (Credentials + RBAC) with cross-domain correlation
+
 ## Example Usage
 
 ### Example 1: Full Platform Assessment
