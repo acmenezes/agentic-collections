@@ -17,7 +17,7 @@ description: |
   - Full: "Is my AAP ready for production?", "Audit my platform governance"
   - Scoped: "Assess my credentials setup", "Check my RBAC", "How are my notifications?"
   - "What should I fix before executing jobs?"
-  - Any question about specific AAP governance domains listed above
+  - Any question about specific AAP governance domains above
 
   NOT for job execution (use governance-executor) or troubleshooting (use forensic-troubleshooter).
 model: inherit
