@@ -15,7 +15,7 @@ description: |
   - "Create a playbook for..."
   - "Patch system Y"
 
-  This skill orchestrates MCP tools from lightspeed-mcp to provide comprehensive fleet visibility and system inventory management.
+  This skill orchestrates MCP tools from lightspeed-mcp for fleet visibility and system inventory management.
 model: inherit
 color: blue
 ---

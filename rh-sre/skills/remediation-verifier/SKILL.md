@@ -11,7 +11,7 @@ description: |
   - "Check if CVE-X is fixed on target systems"
   - "Validate remediation after playbook execution"
 
-  This skill orchestrates MCP tools (get_cve, get_cve_systems, get_host_details) to provide comprehensive remediation verification.
+  This skill orchestrates MCP tools (get_cve, get_cve_systems, get_host_details) for remediation verification.
 
   **IMPORTANT**: ALWAYS use this skill instead of calling verification MCP tools directly.
 ---
