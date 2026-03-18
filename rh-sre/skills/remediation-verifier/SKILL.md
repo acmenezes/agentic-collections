@@ -347,10 +347,6 @@ When completing verification, provide output in this format:
 3. Identify failed systems: web-server-18, web-server-19
 4. Return: "⚠ 18/20 systems verified. 2 systems failed package update. Troubleshooting guidance provided."
 
-## Critical: Human-in-the-Loop Requirements
-
-Verification is read-only (no execution or modification). Report verification results to the user and wait for confirmation before concluding remediation workflow. On partial or failed verification, present troubleshooting options and wait for user decision.
-
 ## Dependencies
 
 ### Required MCP Servers
@@ -375,6 +371,10 @@ Verification is read-only (no execution or modification). Report verification re
 
 ### Reference Documentation
 - None required (verification skill uses MCP tool data)
+
+## Critical: Human-in-the-Loop Requirements
+
+Verification is read-only (no execution or modification). Report verification results to the user and wait for confirmation before concluding remediation workflow. On partial or failed verification, present troubleshooting options and wait for user decision.
 
 ## Best Practices
 
