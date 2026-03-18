@@ -70,4 +70,4 @@ Use ✅ for success, ❌ for failure, ⚠️ for partial (e.g. one server OK, on
 - `/job-template-creator` - Requires AAP MCP validation before template operations
 
 ### Reference Documentation
-- [AAP MCP setup](https://docs.redhat.com/)
+- [AAP Integration Test Guide](../../docs/testing/aap-integration-test-guide.md) - AAP MCP setup, env vars, connectivity verification

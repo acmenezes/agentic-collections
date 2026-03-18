@@ -65,4 +65,4 @@ Use ✅ for success, ❌ for failure, ⚠️ for partial (e.g. connected but err
 - `/cve-validation`, `/cve-impact`, `/fleet-inventory` - All require Lightspeed MCP
 
 ### Reference Documentation
-- [Red Hat Lightspeed setup](https://console.redhat.com/)
+- [Red Hat Lightspeed Documentation Overview](../../docs/insights/README.md) - Lightspeed setup, CVE assessment, vulnerability logic
