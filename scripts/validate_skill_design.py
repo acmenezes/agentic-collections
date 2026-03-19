@@ -64,6 +64,8 @@ LATE_SECTION_PATTERNS = {
     "Human-in-the-Loop": r"Human-in-the-Loop",
     "Example Usage": r"^Example Usage$",
 }
+# Need at least 2 late sections present to validate their order
+MIN_LATE_SECTIONS_FOR_ORDER_CHECK = 2
 
 # Dependencies subsections (DP4)
 DEPENDENCY_SUBSECTIONS = [
@@ -301,7 +303,7 @@ def check_dp6_late_section_order(body: str, result: ValidationResult) -> None:
                 indices.append((order_idx, i, section_key))
                 break
 
-    if len(indices) < 2:
+    if len(indices) < MIN_LATE_SECTIONS_FOR_ORDER_CHECK:
         return
 
     # Sort by document position, then verify order_index is non-decreasing

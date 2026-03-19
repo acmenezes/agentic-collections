@@ -128,6 +128,26 @@ Before returning, verify only:
 
 Do NOT validate for "best practices" or add missing elements—return AS IS.
 
+## Dependencies
+
+### Required MCP Servers
+- `lightspeed-mcp` - Red Hat Lightspeed platform access
+
+### Required MCP Tools
+- `remediations__create_vuln_playbook` (from lightspeed-mcp) - Generate remediation playbook from Red Hat Lightspeed
+  - Parameters: playbook_name, cves (array), uuids (array of system UUIDs)
+  - Returns: Ansible playbook YAML—**return AS IS**, do not modify
+
+### Related Skills
+- `cve-impact` - Provides CVE severity and risk assessment to inform playbook complexity
+- `system-context` - Provides system inventory and deployment context for playbook targeting
+- `remediation-verifier` - Verifies playbook execution success after deployment
+- `playbook-executor` - Executes generated playbooks and tracks job status
+
+### Reference Documentation
+- [cve-remediation-templates.md](../../docs/ansible/cve-remediation-templates.md) - Ansible playbook templates for different CVE types
+- [package-management.md](../../docs/rhel/package-management.md) - RHEL package management best practices (DNF vs YUM, reboot detection)
+
 ## Critical: Human-in-the-Loop Requirements
 
 This skill generates code that will execute on production systems. **Explicit user confirmation is REQUIRED** before returning the playbook.
@@ -332,26 +352,6 @@ To generate Kubernetes-safe playbooks, ensure:
 
 Proceeding with standard playbook (without pod eviction). Add pod eviction manually if needed.
 ```
-
-## Dependencies
-
-### Required MCP Servers
-- `lightspeed-mcp` - Red Hat Lightspeed platform access
-
-### Required MCP Tools
-- `remediations__create_vuln_playbook` (from lightspeed-mcp) - Generate remediation playbook from Red Hat Lightspeed
-  - Parameters: playbook_name, cves (array), uuids (array of system UUIDs)
-  - Returns: Ansible playbook YAML—**return AS IS**, do not modify
-
-### Related Skills
-- `cve-impact` - Provides CVE severity and risk assessment to inform playbook complexity
-- `system-context` - Provides system inventory and deployment context for playbook targeting
-- `remediation-verifier` - Verifies playbook execution success after deployment
-- `playbook-executor` - Executes generated playbooks and tracks job status
-
-### Reference Documentation
-- [cve-remediation-templates.md](../../docs/ansible/cve-remediation-templates.md) - Ansible playbook templates for different CVE types
-- [package-management.md](../../docs/rhel/package-management.md) - RHEL package management best practices (DNF vs YUM, reboot detection)
 
 ## Best Practices
 
